@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
         classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
+        classpath group: "org.sonarsource.scanner.gradle", name:"sonarqube-gradle-plugin", version:"2.7"
     }
 }
 
@@ -19,6 +20,7 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.palantir.docker'
+apply plugin: "org.sonarqube"
 
 bootJar {
     baseName = 'gs-spring-boot-docker'
@@ -30,6 +32,11 @@ task unpack(type: Copy) {
     from(zipTree(tasks.bootJar.outputs.files.singleFile))
     into("build/dependency")
 }
+
+test {
+    useTestNG()
+}
+
 docker {
     name "${project.group}/${bootJar.baseName}"
     copySpec.from(tasks.unpack.outputs).into("dependency")
@@ -48,5 +55,6 @@ dependencies {
     compile('io.springfox:springfox-swagger2:2.9.2')
     compile('io.springfox:springfox-swagger-ui:2.9.2')
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.testng:testng:6.11")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

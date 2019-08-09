@@ -1,9 +1,12 @@
 package hello.controllers;
 
 import hello.entities.User;
+import hello.error.NotFoundException;
 import hello.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,30 +19,35 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
-    @RequestMapping(value = "/", method =  RequestMethod.GET)
+    @GetMapping(value = "/")
     public List<User> getAllUsers(){
         return repository.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User getUserById(@PathVariable("id") ObjectId id){
-        return repository.findBy_id(id);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<User>  getUserById(@PathVariable("id") ObjectId id){
+
+        User user = repository.findBy_id(id);
+        if(user == null){
+            throw new NotFoundException();
+        }
+        return new ResponseEntity<User>(repository.findBy_id(id), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public void modifyUserById(@PathVariable("id") ObjectId id, @Valid @RequestBody User user) {
         user.set_id(id);
         repository.save(user);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public User createUser(@Valid @RequestBody User user) {
+    @PostMapping(value = "/")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         user.set_id(ObjectId.get());
-        repository.save(user);
-        return user;
+        return new ResponseEntity<User>(repository.save(user), HttpStatus.CREATED);
+
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable ObjectId id) {
         repository.delete(repository.findBy_id(id));
     }

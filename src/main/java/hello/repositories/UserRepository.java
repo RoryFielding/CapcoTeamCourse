@@ -1,7 +1,5 @@
 package hello.repositories;
 
-import java.util.List;
-
 import hello.entities.User;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
