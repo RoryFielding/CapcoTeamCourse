@@ -3,6 +3,8 @@ package hello.controllers;
 import hello.entities.User;
 import hello.error.NotFoundException;
 import hello.repositories.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
+    private static final Logger logger = LogManager.getLogger(UserController.class);
+
     @GetMapping(value = "/")
     public List<User> getAllUsers(){
         return repository.findAll();
@@ -29,6 +33,7 @@ public class UserController {
 
         User user = repository.findBy_id(id);
         if(user == null){
+            logger.error("UserController");
             throw new NotFoundException();
         }
         return new ResponseEntity<User>(repository.findBy_id(id), HttpStatus.CREATED);
