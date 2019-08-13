@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="test.greetings.GreetingTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-08-09T10:06:59" hostname="C02XC6T5JG5L" time="0.001">
+<testsuite name="test.greetings.GreetingTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2019-08-10T12:34:58" hostname="C02XC6T5JG5L" time="0.001">
   <properties/>
-  <testcase name="setup" classname="test.greetings.GreetingTest" time="0.001"/>
+  <testcase name="setup" classname="test.greetings.GreetingTest" time="0.0"/>
   <testcase name="testContent" classname="test.greetings.GreetingTest" time="0.0"/>
-  <testcase name="testId" classname="test.greetings.GreetingTest" time="0.0"/>
+  <testcase name="testId" classname="test.greetings.GreetingTest" time="0.001"/>
   <system-out><![CDATA[Setting up greeting test
 Test Content
 Test Id
