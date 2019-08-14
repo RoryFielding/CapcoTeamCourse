@@ -1,19 +1,7 @@
-FROM openjdk:8u171-jdk-alpine3.8
+FROM openjdk:8-jdk-alpine
+RUN mkdir -p /app
+ADD build/libs/*.jar /app/app.jar
+ENTRYPOINT ["/usr/bin/java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
 
-RUN apk add --no-cache mongodb
 
-VOLUME /data/db
-
-# Expose MongoDB ports
-EXPOSE 27017
-
-CMD [ "mongod" ]
-
-ARG JAR_FILE
-#build/libs/capcodigitalengineeringcourse-0.1.0.jar
-COPY ${JAR_FILE} app.jar
-
-ENTRYPOINT ["java","-jar","/app.jar"]
-
-EXPOSE 8090
 

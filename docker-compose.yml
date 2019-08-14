@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  web:
+    build: .
+    ports:
+      - "8089:8089"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST_NAME=db
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
