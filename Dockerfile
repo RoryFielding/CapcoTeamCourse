@@ -1,8 +1,6 @@
 FROM openjdk:8-jdk-alpine
 EXPOSE 8090
 VOLUME /tmp
-ARG DEPENDENCY=build/dependency
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","hello.Application"]
+ARG DEPENDENCY=build
+COPY ${DEPENDENCY}/libs/capcodigitalengineeringcourse-0.1.0.jar
+ENTRYPOINT ["java","-jar","capcodigitalengineeringcourse-0.1.0.jar"]
