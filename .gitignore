@@ -25,7 +25,8 @@
 hs_err_pid*
 
 .gradle
-
+build/dependency/
+build/docker/
 # Ignore Gradle GUI config
 gradle-app.setting
 
