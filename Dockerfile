@@ -3,6 +3,6 @@ EXPOSE 8090
 VOLUME /tmp
 
 ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
+ADD ${JAR_FILE} app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
