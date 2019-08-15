@@ -2,13 +2,28 @@ version: '3.0'
 services:
   web:
     image: roryjf/capcodigitalengineeringcourse
+    restart: always
     ports:
-      - "8090:8090"
+      - 8090:8090
     depends_on:
       - db
+      - elk
     environment:
       - DB_HOST_NAME=db
   db:
     image: mongo
     ports:
       - "27017:27017"
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  # ELK stack
+  elk:
+    container_name: elk
+    image: sebp/elk
+    restart: always
+    ports:
+      - 5601:5601
+      - 9200:9200
+      - 5044:5044

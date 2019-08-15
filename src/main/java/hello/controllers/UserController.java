@@ -9,8 +9,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -22,6 +22,11 @@ public class UserController {
     private UserRepository repository;
 
     private static final Logger logger = LogManager.getLogger(UserController.class);
+
+    private final static String NEW_USER_TOPIC = "test";
+
+    @Autowired
+    private KafkaTemplate<Integer, String> kafkaTemplate;
 
     @GetMapping(value = "/")
     public List<User> getAllUsers(){
@@ -48,8 +53,12 @@ public class UserController {
     @PostMapping(value = "/")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         user.set_id(ObjectId.get());
+        sendMessage("New User Alert!");
         return new ResponseEntity<User>(repository.save(user), HttpStatus.CREATED);
+    }
 
+    public void sendMessage(String msg) {
+        kafkaTemplate.send(NEW_USER_TOPIC, msg);
     }
 
     @DeleteMapping(value = "/{id}")
